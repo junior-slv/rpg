@@ -1,0 +1,412 @@
+#Welcome to AntiAura's configuration!
+
+# AntiAura executes commands if it detects someone hacking.
+# Violations are usually reset when a player leaves or rejoins the server.
+# You can use @@ to execute multiple commands, for example: kick %PLAYER% Hacking@@broadcast %PLAYER% has been kicked for hacking!
+Violations:  
+  # Command to execute after an amount of violations. 
+  5: #
+  10: aamodnotify &7Player &c%PLAYER% &7has a &alow &7chance of using &6%HACKNAME% &7hacks. &8(%CHECKNAME%)
+  15: aamodnotify &7Player &c%PLAYER% &7has a &5moderate &7chance of using &6%HACKNAME% &7hacks. &8(%CHECKNAME%)
+  20: aakick %PLAYER% You were kicked for failing %CHECKNAME%@@aamodnotify &7Player &c%PLAYER% &7was &ckicked &7for using &6%HACKNAME% &7hacks! &8(%CHECKNAME%)@@aamodnotify &3Use &6/areplay %PLAYER% &3to view a replay of the kick.
+  25: aaresetviolations
+  30: #
+  #...etc
+  #Must be a multiple of 5 (e.g. 5, 10, 30, 45, etc)
+
+
+#All new KillauraV2 checks. Most of these checks use Machine Learning.
+#Other killaura checks found under "Forcefield".
+Killaura:
+  #If you disable machine learning, you will not need AntiAura-ML.jar
+  #Disabling machine learning means almost all of the "Killaura...Pattern" killaura checks will be disabled.
+  DISABLE_ALL_MACHINE_LEARNING: false
+  #Detects impossible or very unlikely hits
+  ImpossibleHit:
+    #Enable this check?
+    Enabled: true
+    #How much lag to account for. LagLeniency is 3 by default.
+    #If LagLeniency is 3: player has 600ms -> AntiAura will check between 300 - 900 ms.
+    LagLeniency: 3
+    # Sensitivity of the check 
+    # 0 = Very lenient, 9 = Very strict 
+    Sensitivity: 6
+  KillauraAttackPattern:
+    #Enable this check?
+    Enabled: true
+    #AVERAGE_ALL_CHECKS - Gives player a violation that is an average of the violation of ALL killaura checks
+    #HIGHEST_CHECK - Gives player a violation of the HIGHEST violating check. This will detect players the fastest.
+    #AVERAGE_HIGHEST_FOUR - Gives player a violation that is average of the highest 4 killaura checks (in terms of violations).
+    DetectionMode: HIGHEST_CHECK
+    # Sensitivity of the check 
+    # 0 = Very lenient, 9 = Very strict 
+    Sensitivity: 5
+
+# All KillAura checks and settings are contained in this section of the config.
+# "Forcefield" is an old term for KillAura.
+# 9 Sensitivity is the most strict and may false flag some individuals.
+# 0 Sensitivity is the least strict and is likely to flag hacks slower, possibly even allowing some hacks to bypass.
+Forcefield:
+  # The Consistency checks sample a number of hits and checks if they are too consistent or not within certain parameters.
+  Consistency:
+    # Enables the consistency checks. 
+    Enabled: true
+    # HitPosition checks the consistency of hits placed in specific areas. 
+    HitPosition:
+      # Sensitivity of the check 
+      # 0 = Very lenient, 9 = Very strict 
+      Sensitivity: 7
+    # HeadMovementPerHit checks if hits have similar head movement. 
+    HeadMovementPerHit:
+      # Sensitivity of the check 
+      # 0 = Very lenient, 9 = Very strict 
+      Sensitivity: 7
+
+  # The Angle check blocks hits that are outside of a player's hitbox.
+  Angle:
+    # Enables the angle check. 
+    Enabled: true
+    # Sensitivity of the check 
+    # 0 = Very lenient, 9 = Very strict 
+    Sensitivity: 6
+
+  # The Occlusion check blocks hits made through walls.
+  Occlusion:
+    # Enables the occlusion check. 
+    Enabled: true
+    # Sensitivity of the check 
+    # 0 = Very lenient, 9 = Very strict 
+    Sensitivity: 5
+  
+  # The HeadMove checks block clients from hitting during unusual head movement from hacks like KillAura and Aimbot.
+  # The HeadMove checks are different from the HeadMovementPerHit check as HeadMovementPerHit checks for consistent head movement and HeadMove checks if they have TOO MUCH head movement.
+  HeadMove:
+    # Enables the HeadMove checks. 
+    Enabled: true
+    # Sensitivity of the check 
+    # 0 = Very lenient, 9 = Very strict 
+    Sensitivity: 5
+    # The CancelMove check is a sub-section of the HeadMove check which cancels unlikely hits. 
+    CancelMove:
+      # Sensitivity of the check 
+      # 0 = Very lenient, 9 = Very strict 
+      Sensitivity: 5
+
+  # The Position check detects unlikely positioning of hits from hacks like KillAura and Aimbot.
+  # This check is different from the HitPosition check as HitPosition checks for consistent hits placed in specific areas and Position calculates the difference per hit.
+  Position:
+    # Enables the Position check. 
+    Enabled: true
+    # Sensitivity of the check 
+    # 0 = Very lenient, 9 = Very strict 
+    Sensitivity: 5
+  
+  # The Accuracy check detects actions that are excessively accurate like KillAura and Aimbot.
+  # This does NOT check how close a hit is to the hitbox of the enemy as the Angle check does that. It only checks for hits/misses.
+  Accuracy:
+    # Enables the Accuracy check. 
+    Enabled: true
+    # Sensitivity of the check 
+    # 0 = Very lenient, 9 = Very strict 
+    Sensitivity: 4
+
+
+# The FastClick check blocks clients that click too fast.
+# This may cause false positives if a player butterfly/jitter clicks or uses mouse macros.
+# 9 Sensitivity is the most strict and will most likely false flag everyone.
+# 0 Sensitivity is the least strict and will barely ever flag anyone.
+FastClick:
+  # Enables the FastClick check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = 20CPS, 4 = 12CPS, 5 = 10CPS, 6 = 8CPS and 9 = 6CPS 
+  Sensitivity: 4
+
+
+# The AutoBow check blocks AutoBow/FastBow and NoSlowdown hacks when using bows.
+# 9 Sensitivity is the most strict and will most likely false flag everyone.
+# 0 Sensitivity is the least strict and will barely ever flag anyone.
+AutoBow:
+  # Enables the AutoBow check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 5
+
+
+# The Soup check blocks AutoSoup hacks.
+Soup:
+  #Enables the Soup check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 6
+
+
+# The Map checks block map hacks like Tracers, ESP and Minimaps.
+# The advanced configuration is recommended for these checks as it has more options to help performance and leniency.
+# The Map checks could cause small amount of lag.
+Map:
+  # Enables the Map checks. 
+  Enabled: true
+  # Execute entity hiding code async? HIGHLY RECOMMENDED YOU ENABLE FOR BETTER PERFORMANCE IF YOU HAVE MULTIPLE CPU CORES 
+  UseAsync: true
+  #ONLY hide HOSTILE monsters (e.g. zombies)?
+  HideHostileMobsOnly: true
+  # Automatically reduces checking distance if lag is being caused on your server by entity hiding. 
+  AutoLagAccounting: false
+  #LagAccountingMaxTime: 20
+  # Higher values (e.g. 9) will hide entities further away.
+  # Using the advanced config for Map is highly recommended!! 
+  Sensitivity: 7
+  # Rays figure out which entities need to be hidden. 
+  # The RayMode option will also be used for TileESP. 
+  # RayMode 0 casts a single ray that checks all blocks around a location.
+  # RayMode 1 casts a single ray that checks blocks around in non-diagonal locations.
+  # RayMode 2 casts a single ray that will check multiple blocks around the ray's path. If any of those blocks are air (or transparent, like barriers), the ray will continue.
+  # RayMode 3 & 4 are more lenient versions of RayMode 2.
+  # RayMode 5 casts multiple rays that stop as soon as they hit a solid block. If any of these rays pass through, the entity will be visible.
+  # RayMode 6 & 7 are more lenient versions of RayMode 5.
+  # RayMode -1 will cast a straight 1-block line to the destination. Best performance, may not unhide entities when needed.
+  RayMode: 2
+  # This blocks ESP for tile entities such as Chests and Hoppers.
+  TileESP:
+    # Enables the TileESP check. 
+    Enabled: true
+    # Sensitivity of the check 
+    # 0 = Very lenient, 9 = Very strict 
+    Sensitivity: 6
+  #You can find AntiAura's own X-Ray blockage in config_advanced.yml. 
+  #If you run something like PaperSpigot, I would recommend using it's own built-in Anti-Xray.
+  #XRay:
+
+
+# The Knockback check blocks Anti-Knockback hacks.
+Knockback:
+  # Enables the Knockback check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 6
+
+
+# The Criticals check blocks Criticals hacks which do MORE criticals than normal clients and try to FAKE criticals.
+# This won't block clients that simply jump up and down to do criticals.
+Criticals:
+  # Enables the Criticals check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 6
+
+
+# The FastEat check blocks players from eating food faster than normal.
+FastEat:
+  # Enables the FastEat check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 5
+
+
+# The Step check blocks Step hacks which make players instantly climb up blocks without jumping.
+# This will also help other checks block Flight, HighJump and block Spider hacks.
+Step:
+  # Enables the Step check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 5
+
+
+# The Spider check blocks any unexpected Y movement.
+# If a player goes upward unexpectedly without any blocks underneath them, this will drag them down.
+Spider:
+  # Enables the Spider check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 6
+
+
+# The Jump check measures the distance of the block the player jumped to from the block they are on now.
+# If that distance is too far, they are dragged back.
+Jump:
+  # Enables the Jump check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 6
+
+
+# The Flight check blocks flight hacks.
+# The Flight check also helps block Jesus hacks.
+Flight:
+  # Enables the Flight check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 5
+
+
+# The Speed check blocks players from moving faster than normal and also helps blocks Jesus and Sneak hacks.
+# The Speed check passes information to other checks like the Reach and Knockback checks.
+Speed:
+  # Enables the Speed check. 
+  # WARNING: Disabling the Speed check may make checks like Reach and Knockback less effective.
+  Enabled: true
+  # Check Duration, if longer, allows players to travel a longer distance in a longer time making it useful for laggy players.
+  # For refrence, setting CheckDuration to Normal allows players to travel ~11 blocks in ~2 seconds.
+  # There are has 5 durations: Short, Normal, Long, VeryLong and ExtremelyLong. 
+  CheckDuration: Normal
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 6
+
+
+# The Teleport check blocks teleportation hacks.
+# These type of hacks are a bit like speed hacks, but trigger REAL TELEPORT EVENTS on the server.
+Teleport:
+  # Enables the Teleport check. 
+  Enabled: true
+  # There is no Sensitivity option for this check in this config. Go to config_advanced.yml for more options. 
+
+#Attempt to block spoof of ping. Very lenient by default to be nice to lag-spikey connections.
+PingSpoof:
+  #Enable this check?
+  Enabled: true
+  # There is no Sensitivity option for this check in this config. Go to config_advanced.yml for more options. 
+
+# The NoFall check blocks hacks where players take no fall damage.
+NoFall:
+  # Enables the NoFall check. 
+  Enabled: true
+  #Extra code to make it compatible with jump pads
+  #May allow minor bypasses in situations with velocity (e.g. PVP).
+  JumpPadCompatibility: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 5
+
+
+# The Phase check blocks players from moving through blocks.
+Phase:
+  # Enable the Phase check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 6
+
+
+# The FastPlace check blocks players from placing blocks too fast.
+FastPlace:
+  # Enables the FastPlace check. 
+  Enabled: True
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 6
+
+
+# The GhostHand check prevents players from breaking blocks through each other/
+# This should also block Nuker hacks, but this depends on the hacked client.
+# The GhostHand check should also block players from breaking blocks if they are using a "Derp" hack.
+GhostHand:
+  # Enables the GhostHand check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 6
+
+
+#Prevents players from breaking blocks too quickly
+#Still somewhat a work in progress to be improved upon later
+BreakSpeed:
+  #Enables the BreakSpeed check
+  Enabled: true
+
+# The UnlikelyInteract check blocks players from opening inventories like chests through walls.
+UnlikelyInteract:
+  # Enables the UnlikelyInteract check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 6
+
+
+# The NoSwing check blocks hacks that make it look like player's aren't swinging their sword.
+# This can NOT block client-side NoSwing hacks as they are simply visable to the player hacking and make no difference to others.
+NoSwing:
+  # Enables the NoSwing check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 6
+
+
+# The Regen hack blocks clients from regenerating health faster than usual.
+# The MorePackets check should take care of this, but in case it doesn't, the Regen check does NOT use packets and works by looking at the actual health of a player.
+Regen:
+  # Enables the Regen check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 6
+
+
+# The MorePackets check looks for packets used in hacks like AntiFire, AntiPotion and Regen.
+# The MorePackets check only looks for specific packets.
+MorePackets:
+  # Enables the MorePackets check. 
+  Enabled: true
+  # There is no Sensitivity option for this check in this config. Go to config_advanced.yml for more options. 
+
+
+# The PotionSaver hack makes a good potion (like Speed I) stand still, making the timer of the potion not go down.
+# The PotionSaver check blocks this and forces the Potion go down if a packet isn't sent each second.
+PotionSaver:
+  # Enables the PotionSaver check. 
+  Enabled: true
+  # Sensitivity of the check 
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 6
+
+
+# The Elytra checks blocks hacks like ElytraFly and Elytra+.
+Elytra:
+  # Enables the HeightBlockage check that blocks hacks from making players using Elytra fly higher than usual. 
+  HeightBlockage: true
+  # Enables the SpeedBlockage check that blocks hacks from making players using Elytra move faster than usual. 
+  SpeedBlockage: true
+  #Simulate an elytra flight and block the player's movement if the simulation is too far from the player's location?
+  #Note: This is the ONLY elytra blockage that functions after fireworks have been fired.
+  SimulationBlockage: true
+  # There is no Sensitivity option for this check in this config. Go to config_advanced.yml for more options. 
+
+
+# The BowAimbot "blocks" manual BowAimbot. There's no way properly detect it, hence no way to kick a player for it.
+BowAimbot:
+  # ArrowVelocity changes the velocity of arrows that are shot from bows.
+  # For example, a value of 1.1 would make arrows shoot faster than usual on a normal server. 
+  # Giving the arrow a different velocity than the hacked client expects, makes the aiming marker useless and will hopefully block manual BowAimbot. 
+  ArrowVelocity: 1.05
+
+
+# The IllegalItem check blocks items with certain illegal parameters.
+# Items with illegal paramerters will be removed from a players' inventory.
+IllegalItem:
+  # Enables the IllegalItem check. 
+  Enabled: true
+  # There is no Sensitivity option for this check in this config. Go to config_advanced.yml for more options. 
+
+# VelocityAccounting does what it says in the name, it accounts for velocities for things like launchpads and in pvp, ect.
+# 9 Sensitivity is the most strict and will most likely false flag everyone.
+# 0 Sensitivity is the least strict and will barely ever flag anyone.
+VelocityAccounting:
+  USE_VELOCITY_V2: true
+  USE_OLD_VELOCITY_SYSTEM: false
+  # Sensitivity of velocity accounting
+  # 0 = Very lenient, 9 = Very strict 
+  Sensitivity: 5
+
+#Force sensitivity of all checks to -1?
+UseAdvancedConfiguration: false
